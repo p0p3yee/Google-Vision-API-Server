@@ -32,14 +32,23 @@ async function sendRequest(path){
 
 (async function(){
     const arg = process.argv[2];
-    const pathStat = await fs.lstat(arg);
+    const pathStat = await fs.lstat(arg).catch(e => {
+        console.error(`Error in reading path stat: ${arg} :`, e);
+        process.exit();
+    });
     if(pathStat.isFile()){
         sendRequest(arg);
     }else{
-        const allFile = await fs.readdir(arg)
+        const allFile = await fs.readdir(arg).catch(e => {
+            console.error(`Error in reading directory: ${arg} :`, e);
+            process.exit();
+        });
         for(var i = 0; i < allFile.length; i++){
             var currentPath = path.join(arg, allFile[i])
-            var fileStat = await fs.lstat(currentPath);
+            var fileStat = await fs.lstat(currentPath).catch(e => {
+                console.error(`Error in reading Path: ${currentPath} :`, e);
+                process.exit();
+            });
             if(fileStat.isDirectory()) continue;
             sendRequest(currentPath)
         }
