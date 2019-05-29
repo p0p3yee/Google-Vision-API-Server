@@ -4,8 +4,8 @@ const Regex = {
     chtBdayType: /出生日期/,
     chtIssueDayType: /簽發日期/,
     chtName: /[\u3400-\u9FBF]{2,6}/,
-    engName: /(?<last>[a-zA-Z]+)(?:, | )(?<mid>[a-zA-Z]+)(?: *)(?<first>[a-zA-Z]+)(?<extra>(?:(?: *)[a-zA-Z])*)/,
-    ctc: /(?<last>\d\d\d\d)(?: *)(?<mid>\d\d\d\d)(?: *)(?<first>\d\d\d\d)/,
+    engName: /(?<last>[a-zA-Z]+)(?:, | )(?<mid>[a-zA-Z]+)(?: *)(?<first>[a-zA-Z]+)(?:(?:(?: *)([a-zA-Z]))*)/,
+    ctc: /(?<last>\d\d\d\d)(?: *)(?<mid>\d\d\d\d)(?: *)(?<first>\d\d\d\d)(?:(?:(?: *)(\d\d\d\d))*)/,
     birthday: /(?: *)(?<day>[0-3]\d)(?: *)-(?: *)(?<month>[0-1]\d)(?: *)-(?: *)(?<year>[1-2]\d\d\d)(?: *)$/,
     newBirthdayAndSex: /(?: *)(?<day>[0-3]\d)(?: *)-(?: *)(?<month>[0-1]\d)(?: *)-(?: *)(?<year>[1-2]\d\d\d)(?: *)(?<cht>男|女)(?: *)(?<eng>F|M|f|m)(?: *)$/,
     newIssueDateAndID: /(?: *)(?<day>[0-3]\d)(?: *)-(?: *)(?<month>[0-1]\d)(?: *)-(?: *)(?<year>\d\d)(?: *)(\w|\d)(?:.?)(\d\d\d\d\d\d)(?:.?)([(][\d|\w][)])/,
@@ -13,6 +13,7 @@ const Regex = {
     sex: /^(?: *)(?<cht>男|女)(?: *)(?<eng>F|M|f|m)(?: *)$/,
     dateOfIssue: /(?: *)(?<day>[0-3]\d)(?: *)-(?: *)(?<month>[0-1]\d)(?: *)-(?: *)(?<year>\d\d)(?: *)/,
     symbol: /(?:\*+(?: *)([A-Z]+))/,
+    firstIssueDate: /[(|C](?: *)(\d\d)(?: *)-(?: *)(\d\d)(?: *)[)]/
 }
 
 const regexList = Object.keys(Regex);
