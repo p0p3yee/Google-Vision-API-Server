@@ -22,6 +22,7 @@ async function sendRequest(path){
         }, (err, res) => {
             if(err){
                 console.error(`Error in request of Image Path: "${path}" : `, err);
+                return;
             }
 
             console.log(`Response of Image Path: "${path}" : `, util.inspect(res.body, false, null, true));
