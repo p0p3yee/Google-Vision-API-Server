@@ -2,7 +2,7 @@ require("dotenv").config();
 const vision = require('@google-cloud/vision');
 const fs = require("mz/fs");
 const crypto = require("crypto");
-const findMatch = require("../Regex");
+const regexFinder = require("../Regex");
 
 process.env.GOOGLE_APPLICATION_CREDENTIALS = process.env.path;
 
@@ -29,11 +29,12 @@ module.exports = async (req, res) => {
         }, 1000 * 10);
 
         const regexResult = [];
-        text.forEach(v => regexResult.push(findMatch(v)));
+        text.forEach(v => !!v && regexResult.push(regexFinder.findMatch(v)));
     
         return res.json({
             raw: text,
-            parsed: regexResult
+            parsed: regexResult,
+            isNewID: regexFinder.isNewCard(text)
         })
     }catch(e){
         console.error("Error in OCR: ", e);

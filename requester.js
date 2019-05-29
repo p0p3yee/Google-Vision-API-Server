@@ -2,7 +2,8 @@
 require("dotenv").config();
 const fs = require("mz/fs");
 const request = require("request");
-const path = require("path")
+const path = require("path");
+const util = require("util");
 
 if(process.argv.length < 3){
     console.log("Please pass the image path as argument.");
@@ -23,7 +24,7 @@ async function sendRequest(path){
                 console.error(`Error in request of Image Path: "${path}" : `, err);
             }
 
-            console.log(`Response of Image Path: "${path}" : `, res.body);
+            console.log(`Response of Image Path: "${path}" : `, util.inspect(res.body, false, null, true));
         })
     }catch(e){
         console.error(`Error of Image Path: "${path}" : `, e);
