@@ -2,6 +2,7 @@ require("dotenv").config();
 const vision = require('@google-cloud/vision');
 const fs = require("mz/fs");
 const crypto = require("crypto");
+const findMatch = require("../Regex");
 
 process.env.GOOGLE_APPLICATION_CREDENTIALS = process.env.path;
 
@@ -26,10 +27,16 @@ module.exports = async (req, res) => {
                 console.error("Error in delete file: ", e);
             }
         }, 1000 * 10);
+
+        const regexResult = [];
+        text.forEach(v => regexResult.push(findMatch(v)));
+    
         return res.json({
-            raw: text
+            raw: text,
+            parsed: regexResult
         })
     }catch(e){
+        console.error("Error in OCR: ", e);
         return res.json({
             error: e
         })
