@@ -28,7 +28,8 @@ const getGroups = result => {
 
 const findMatch = text => {
     for(var i = 0; i < regexList.length; i++){
-        var result = Regex[regexList[i]].exec(text);
+        var nowRegex = Regex[regexList[i]];
+        var result = nowRegex.exec(text);
         if(result == null) continue;
         return {
             type: regexList[i],
