@@ -1,6 +1,6 @@
 const Regex = {
     chtType: /香港永久性居民身份證/,
-    engType: /HONG KONG PERMANENT IDENTITY CARID/,
+    engType: /HONG KONG PERMANENT IDENTITY CARD/,
     chtBdayType: /出生日期/,
     chtIssueDayType: /簽發日期/,
     chtName: /[\u3400-\u9FBF]{2,6}/,
