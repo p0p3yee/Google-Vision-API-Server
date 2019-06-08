@@ -1,19 +1,25 @@
 const Regex = {
     chtType: /香港永久性居民身份證/,
-    engType: /HONG KONG PERMANENT IDENTITY CARD/,
+    engType: /HONG KONG PERMANENT IDENTITY CARD/i,
     chtBdayType: /出生日期/,
     chtIssueDayType: /簽發日期/,
+    dateOfBirthType: /Date of Birth/i,
+    dateOfIssueType: /Date of Issue/i,
+    chtDateOfIssueType: /(著發日期|簽發日期)/,
+    HongKong: /HONG KONG/i,
+    SampleText: /(?:sample)/i,
     chtName: /[\u3400-\u9FBF]{2,6}/,
     engName: /(?<last>[a-zA-Z]+)(?:, | )(?<mid>[a-zA-Z]+)(?: *)(?<first>[a-zA-Z]+)(?:(?:(?: *)([a-zA-Z]))*)/,
     ctc: /(?<last>\d\d\d\d)(?: *)(?<mid>\d\d\d\d)(?: *)(?<first>\d\d\d\d)(?:(?:(?: *)(\d\d\d\d))*)/,
     birthday: /(?: *)(?<day>[0-3]\d)(?: *)-(?: *)(?<month>[0-1]\d)(?: *)-(?: *)(?<year>[1-2]\d\d\d)(?: *)$/,
-    newBirthdayAndSex: /(?: *)(?<day>[0-3]\d)(?: *)-(?: *)(?<month>[0-1]\d)(?: *)-(?: *)(?<year>[1-2]\d\d\d)(?: *)(?<cht>男|女)(?: *)(?<eng>F|M|f|m)(?: *)$/,
+    newBirthdayAndSex: /(?: *)(?<day>[0-3]\d)(?: *)-(?: *)(?<month>[0-1]\d)(?: *)-(?: *)(?<year>[1-2]\d\d\d)(?: *)(?<cht>男?|女?)?(?: *)(?<eng>F|M|f|m)(?: *)$/,
     newIssueDateAndID: /(?: *)(?<day>[0-3]\d)(?: *)-(?: *)(?<month>[0-1]\d)(?: *)-(?: *)(?<year>\d\d)(?: *)(\w|\d)(?:.?)(\d\d\d\d\d\d)(?:.?)([(][\d|\w][)])/,
     hkid: /(\w|\d)(?:.?)(\d\d\d\d\d\d)(?:.?)([(][\d|\w][)])/,
     sex: /^(?: *)(?<cht>男|女)(?: *)(?<eng>F|M|f|m)(?: *)$/,
     dateOfIssue: /(?: *)(?<day>[0-3]\d)(?: *)-(?: *)(?<month>[0-1]\d)(?: *)-(?: *)(?<year>\d\d)(?: *)/,
-    symbol: /(?:\*+(?: *)([A-Z]+))/,
-    firstIssueDate: /[(|C](?: *)(\d\d)(?: *)-(?: *)(\d\d)(?: *)[)]/
+    symbol: /(\*+(?: *))([A-Z]+)/,
+    firstIssueDate: /[(|C](?: *)(\d\d)(?: *)-(?: *)(\d\d)(?: *)[)]/,
+    singleSexChar: /(?<eng>F|M)/i
 }
 
 const regexList = Object.keys(Regex);
@@ -48,10 +54,10 @@ const findMatch = text => {
 const isNewCard = textArr => {
     var matched = [false, false];
     for(var i = 0; i < textArr; i++){
-        if(!!Regex.newBirthdayAndSex.exec(textArr[i])) matched[0] = true;
-        if(!!Regex.newIssueDateAndID.exec(textArr[i])) matched[1] = true;
+        if(Regex.newBirthdayAndSex.exec(textArr[i])) matched[0] = true;
+        if(Regex.newIssueDateAndID.exec(textArr[i])) matched[1] = true;
     }
-    return matched[0] && matched[1];
+    return matched[0] || matched[1];
 }
 
 module.exports = {
