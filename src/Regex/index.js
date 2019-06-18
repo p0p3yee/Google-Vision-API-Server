@@ -19,7 +19,8 @@ const Regex = {
     dateOfIssue: /(?: *)(?<day>[0-3]\d)(?: *)-(?: *)(?<month>[0-1]\d)(?: *)-(?: *)(?<year>\d\d)(?: *)/,
     symbol: /(\*+(?: *))([A-Z]+)/,
     firstIssueDate: /[(|C](?: *)(\d\d)(?: *)-(?: *)(\d\d)(?: *)[)]/,
-    singleSexChar: /(?<eng>F|M)/i
+    singleSexChar: /(?<eng>F|M)/i,
+    newIDTopLeftCorner: /^(?:\w|\d)(?:\d\d\d\d\d\d)$/
 }
 
 const regexList = Object.keys(Regex);
@@ -52,12 +53,13 @@ const findMatch = text => {
 }
 
 const isNewCard = textArr => {
-    var matched = [false, false];
-    for(var i = 0; i < textArr; i++){
+    var matched = [false, false, false];
+    for(var i = 0; i < textArr.length; i++){
         if(Regex.newBirthdayAndSex.exec(textArr[i])) matched[0] = true;
         if(Regex.newIssueDateAndID.exec(textArr[i])) matched[1] = true;
+        if(Regex.newIDTopLeftCorner.exec(textArr[i])) matched[2] = true;
     }
-    return matched[0] || matched[1];
+    return matched[0] || matched[1] || matched[2];
 }
 
 module.exports = {
