@@ -1,5 +1,8 @@
 const Regex = {
     chtType: /香港永久性居民身份證/,
+    chtTypeSplited: /香港永久性/,
+    chtTypeSplited2: /居民身份證/,
+    chtType2: /香港永久居民身份證/,
     engType: /HONG KONG PERMANENT IDENTITY CARD/i,
     chtBdayType: /出生日期/,
     chtIssueDayType: /簽發日期/,
@@ -17,10 +20,10 @@ const Regex = {
     hkid: /(\w|\d)(?:.?)(\d\d\d\d\d\d)(?:.?)([(][\d|\w][)])/,
     sex: /^(?: *)(?<cht>男|女)(?: *)(?<eng>F|M|f|m)(?: *)$/,
     dateOfIssue: /(?: *)(?<day>[0-3]\d)(?: *)-(?: *)(?<month>[0-1]\d)(?: *)-(?: *)(?<year>\d\d)(?: *)/,
-    symbol: /(\*+(?: *))([A-Z]+)/,
+    symbol: /(\*+(?: *))([A-Z](?: *)[A-Z]+)/,
     firstIssueDate: /[(|C](?: *)(\d\d)(?: *)-(?: *)(\d\d)(?: *)[)]/,
     singleSexChar: /(?<eng>F|M)/i,
-    newIDTopLeftCorner: /^(?:\w|\d)(?:\d\d\d\d\d\d)$/
+    newIDTopRightCorner: /^(?:\w|\d)(?:\d\d\d\d\d\d)$/
 }
 
 const regexList = Object.keys(Regex);
@@ -38,6 +41,7 @@ const findMatch = text => {
         var nowRegex = Regex[regexList[i]];
         var result = nowRegex.exec(text);
         if(result == null) continue;
+        if (regexList[i] == "chtName" && (result[0].includes("永久性") || result[0].includes("身份證"))) continue;
         return {
             type: regexList[i],
             result: {
