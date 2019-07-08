@@ -61,7 +61,7 @@ const isNewCard = textArr => {
     for(var i = 0; i < textArr.length; i++){
         if(Regex.newBirthdayAndSex.exec(textArr[i])) matched[0] = true;
         if(Regex.newIssueDateAndID.exec(textArr[i])) matched[1] = true;
-        if(Regex.newIDTopLeftCorner.exec(textArr[i])) matched[2] = true;
+        if(Regex.newIDTopRightCorner.exec(textArr[i])) matched[2] = true;
     }
     return matched[0] || matched[1] || matched[2];
 }
